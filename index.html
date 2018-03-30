@@ -1,0 +1,90 @@
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>
+		All information about...
+	</title>
+</head>
+<body>
+	<center>
+		<input type="text" placeholder="42" id="number">
+		<button type="button" id="button">Show</button>
+		<div id="information">
+		</div>
+	</center>
+</body>
+<script type="text/javascript">
+	function showInformation() {
+		number = parseFloat(document.getElementById("number").value);
+		result = "";
+		if (Math.round(number) == number) {
+			wholenumber = parseInt(number);
+			result += "This is a "
+			if (number >= 0) {
+				result += "natural ";
+			}
+			result += "whole number<br>";
+
+			if (wholenumber % 2 == 0) {
+				result += "Number is pair<br>";
+			} else {
+				result += "Number is impair<br>";
+			}
+		}
+		if (wholenumber > 1) {
+			var factors = [];
+			var factorCount = [];
+			for (var div = 2; div <= wholenumber; div++) {
+				if (!(wholenumber % div)) {
+					count = 0;
+					while (!(wholenumber % div)) {
+						wholenumber /= div;
+						count++;
+					}
+					factors.push(div);
+					factorCount.push(count);
+				}
+			}
+			if (factors.length > 1) {
+				for (var i = 0; i < factors.length; i++) {
+					result += factors[i];
+					if (factorCount[i] > 1) {
+						result += "<sup>" + factorCount[i] + "</sup>";
+					}
+					if (i < factors.length - 1) {
+						result += " * ";
+					}
+				}
+				result += "<br>";
+			} else {
+				result += "Number is prime" + "<br>";
+			}
+		}
+		var square = number * number;
+		var cube = square * number;
+		result += "The square of the number is " + square + "<br>";
+		result += "The cube of the number is " + cube + "<br>";
+		if (number >= 0) {
+			root = Math.sqrt(number).toFixed(2);
+			result += "The square root of the number is " + root + "<br>";
+		}
+		var sum = 0;
+		var digits = number.toString().split("");
+		for (var i = 0; i < digits.length; i++) {
+			sum += parseInt(digits[i]);
+		}
+		result += "The sum of the digits is " + sum + "<br>";
+		document.getElementById("information").innerHTML = result;
+	}
+	document.getElementById("number").addEventListener("keyup", function(event) {
+		event.preventDefault();
+		if (event.keyCode == 13) {
+			showInformation();
+		} 
+	})
+	document.getElementById("button").addEventListener("click", function(event) {
+		showInformation();
+	});
+</script>
+</html>
