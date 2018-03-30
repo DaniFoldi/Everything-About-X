@@ -8,7 +8,7 @@
 </head>
 <body>
 	<center>
-		<input type="text" placeholder="42" id="number">
+		<input type="text" placeholder="42" id="question">
 		<button type="button" id="button">Show</button>
 		<div id="information">
 		</div>
@@ -16,10 +16,11 @@
 </body>
 <script type="text/javascript">
 	function showInformation() {
-		number = parseFloat(document.getElementById("number").value);
-		result = "";
+		var number = parseFloat(document.getElementById("question").value);
+		console.log(number);
+		var result = "";
 		if (Math.round(number) == number) {
-			wholenumber = parseInt(number);
+			var wholenumber = Math.round(number);
 			result += "This is a "
 			if (number >= 0) {
 				result += "natural ";
@@ -31,35 +32,45 @@
 			} else {
 				result += "Number is impair<br>";
 			}
-		}
-		if (wholenumber > 1) {
-			var factors = [];
-			var factorCount = [];
-			for (var div = 2; div <= wholenumber; div++) {
-				if (!(wholenumber % div)) {
-					count = 0;
-					while (!(wholenumber % div)) {
-						wholenumber /= div;
-						count++;
-					}
-					factors.push(div);
-					factorCount.push(count);
-				}
-			}
-			if (factors.length > 1) {
-				for (var i = 0; i < factors.length; i++) {
-					result += factors[i];
-					if (factorCount[i] > 1) {
-						result += "<sup>" + factorCount[i] + "</sup>";
-					}
-					if (i < factors.length - 1) {
-						result += " * ";
+			if (wholenumber > 1) {
+				var factors = [];
+				var factorCount = [];
+				var copy = wholenumber;
+				for (var div = 2; div <= copy; div++) {
+					if (copy % div == 0) {
+						count = 0;
+						while (copy % div == 0) {
+							copy /= div;
+							count++;
+						}
+						factors.push(div);
+						factorCount.push(count);
 					}
 				}
-				result += "<br>";
-			} else {
-				result += "Number is prime" + "<br>";
+				if (factors.length > 1) {
+					for (var i = 0; i < factors.length; i++) {
+						result += factors[i];
+						if (factorCount[i] > 1) {
+							result += "<sup>" + factorCount[i] + "</sup>";
+						}
+						if (i < factors.length - 1) {
+							result += " * ";
+						}
+					}
+					result += "<br>";
+				} else {
+					result += "Number is prime" + "<br>";
+				}
 			}
+			if (wholenumber >= 0 && wholenumber <= 70) {
+				var fact = 1;
+				if (wholenumber > 1) {
+					for (var i = 2; i <= wholenumber; i++) {
+						fact *= i;
+					}
+				}
+				result += "The factorial of the number is " + fact + "<br>";
+			}	
 		}
 		var square = number * number;
 		var cube = square * number;
@@ -68,16 +79,22 @@
 		if (number >= 0) {
 			root = Math.sqrt(number).toFixed(2);
 			result += "The square root of the number is " + root + "<br>";
+			if (Math.round(root) == root) {
+				result += "This is a square number<br>";
+			}
 		}
 		var sum = 0;
+		var prod = 1;
 		var digits = number.toString().split("");
 		for (var i = 0; i < digits.length; i++) {
 			sum += parseInt(digits[i]);
+			prod *= parseInt(digits[i]);
 		}
 		result += "The sum of the digits is " + sum + "<br>";
+		result += "The product of the digits is " + prod + "<br>";
 		document.getElementById("information").innerHTML = result;
 	}
-	document.getElementById("number").addEventListener("keyup", function(event) {
+	document.getElementById("question").addEventListener("keyup", function(event) {
 		event.preventDefault();
 		if (event.keyCode == 13) {
 			showInformation();
